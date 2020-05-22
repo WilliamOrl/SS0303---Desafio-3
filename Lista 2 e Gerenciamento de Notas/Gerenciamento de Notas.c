@@ -32,6 +32,8 @@ void informando(char *nome, char *sobre,int *usp,int i);
 void Gerar_estatisticas(sala* pessoas,int n_t);
 float Media_P1(sala* pessoas, int i);
 float Media_P2(sala* pessoas, int i);
+float Media_Trab(sala* pessoas, int i);
+int Accept(sala* pessoas, int i);
 
 //====================================================================
 //		Inicio
@@ -72,6 +74,10 @@ int main(void){
 			case 4:
 				break;
 			case 5:
+				printf("Encerrando o Sistema...");
+				for(i=0;i!=20;i++){
+					free(pessoas[i].turma);
+				}
 				goto fim;
 				break;
 		}
@@ -176,6 +182,8 @@ void informando(char *nome, char *sobre,int *usp,int i){
 
 void Gerar_estatisticas(sala* pessoas, int n_t){
 	
+	system("cls");
+	
 	if(n_t == 0){
 		printf("Nenhuma turma registrada");
 	}
@@ -186,27 +194,42 @@ void Gerar_estatisticas(sala* pessoas, int n_t){
 		float med_P1[n_t];
 		float med_P2[n_t];
 		float med_trab[n_t];
+		int aprovados[n_t];
 		
 		for(i=0;i!=n_t;i++){
 			med_P1[i] = Media_P1(pessoas,i);
 			med_P2[i] = Media_P2(pessoas,i);
+			med_trab[i] = Media_Trab(pessoas,i);
+			aprovados[i] = Accept(pessoas,i);
 		}
 		
 		for(i=0;i!=n_t;i++){
-			printf(" Turma %d         ",i+1);
+			printf(" Turma %d          ",i+1);
 		}
 			
 		printf("\n");
 		
 		for(i=0;i!=n_t;i++){
-			printf("Medias P1 %.2f ",med_P1[i]);
+			printf("Medias P1 %.2f    ",med_P1[i]);
 		}			
 		
 		printf("\n");
 		
 		for(i=0;i!=n_t;i++){
-			printf("Medias P2 %.2f ",med_P2[i]);
+			printf("Medias P2 %.2f    ",med_P2[i]);
 		}			
+		
+		printf("\n");
+		
+		for(i=0;i!=n_t;i++){
+			printf("Medias Trab %.2f   ",med_trab[i]);
+		}
+		
+		printf("\n");
+		
+		for(i=0;i!=n_t;i++){
+			printf("N de aprovados %d    ",aprovados[i]);
+		}
 				
 	}
 	sleep(10);	
@@ -242,3 +265,37 @@ float Media_P2(sala* pessoas, int i){
 	aux = aux/pessoas[i].N_de_alunos;
 	return aux;
 }
+
+//====================================================================
+//		Media do Trabalho
+//====================================================================
+
+float Media_Trab(sala* pessoas, int i){
+	int j;
+	float aux=0;
+	
+	for(j=0;j!=pessoas[i].N_de_alunos;j++){
+		aux = aux + pessoas[i].turma[j].N_tab;	
+	}
+	aux = aux/pessoas[i].N_de_alunos;
+	return aux;
+}
+
+//====================================================================
+//		Numero de Aprovados
+//====================================================================
+
+int Accept(sala* pessoas, int i){
+	int j;
+	int aux=0,contador=0;
+	
+	for(j=0;j!=pessoas[i].N_de_alunos;j++){
+		aux = pessoas[i].turma[j].med_fim;
+		
+		if(aux>=5)
+			contador++;	
+	}
+
+	return contador;
+}
+
