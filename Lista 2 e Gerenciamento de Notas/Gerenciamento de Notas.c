@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
 
 //====================================================================
 //		Struct 
@@ -34,6 +34,7 @@ float Media_P1(sala* pessoas, int i);
 float Media_P2(sala* pessoas, int i);
 float Media_Trab(sala* pessoas, int i);
 int Accept(sala* pessoas, int i);
+void Gravar_info(sala* pessoas,int n_t);
 
 //====================================================================
 //		Inicio
@@ -72,12 +73,15 @@ int main(void){
 				Gerar_estatisticas(pessoas, n_t);
 				break;
 			case 4:
+				Gravar_info(pessoas, n_t);
 				break;
 			case 5:
 				printf("Encerrando o Sistema...");
+				
 				for(i=0;i!=20;i++){
 					free(pessoas[i].turma);
 				}
+				
 				goto fim;
 				break;
 		}
@@ -297,5 +301,54 @@ int Accept(sala* pessoas, int i){
 	}
 
 	return contador;
+}
+
+
+//====================================================================
+//		Gravar Informções
+//====================================================================
+
+void Gravar_info(sala* pessoas,int n_t){
+	
+	system("cls");
+	
+	if(n_t == 0){
+		printf("Nenhuma turma registrada");
+	}
+	
+	else{
+		
+		int i,j;
+		char nome[30];
+		
+		printf("Digite o Nome do Arquivo: ");
+		setbuf(stdin, NULL);
+		scanf("%[^\n]s",&nome);
+		setbuf(stdin, NULL);
+		
+		printf("Criando Arquivo...");
+		strcat(nome,".txt");
+		
+		FILE *arquivo = fopen (nome,"w");
+		
+		for(i=0;i!=n_t;i++){
+			fprintf(arquivo,"Turma %d\n",i+1);
+		
+			for(j=0;j!=pessoas[i].N_de_alunos;j++){
+				fprintf(arquivo,"Nome completo: %s %s\n", pessoas[i].turma[j].nome, pessoas[i].turma[j].sob);
+				fprintf(arquivo,"Numero USP: %d\n", pessoas[i].turma[j].num_usp);
+    			fprintf(arquivo,"Primeira nota: %.2f\n", pessoas[i].turma[j].P1);
+    			fprintf(arquivo,"Segunda nota: %.2f\n", pessoas[i].turma[j].P2);
+    			fprintf(arquivo,"Nota no Trabalho: %.2f\n", pessoas[i].turma[j].N_tab);
+    			fprintf(arquivo,"Media final: %.2f\n", pessoas[i].turma[j].med_fim);
+    			printf("\n");
+    			}
+    		fprintf(arquivo,"\n\n");
+  		}	
+		fclose(arquivo);
+		printf("Arquivo Criado com Sucesso...");
+	}
+	
+	sleep(5);
 }
 
