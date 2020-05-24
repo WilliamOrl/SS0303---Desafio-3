@@ -29,6 +29,9 @@ void criar_turma(sala* pessoas,int n_t);
 int media(float n1, float n2, float tra, int n);
 void notas(float *n1,float *n2,float *tra, int i);
 void informando(char *nome, char *sobre,int *usp,int i);
+void Procurar_aluno(sala* pessoas, int turma);
+int Nome(sala* pessoas, int n_t);
+int N_USP(sala* pessoas, int turma);
 void Gerar_estatisticas(sala* pessoas,int n_t);
 float Media_P1(sala* pessoas, int i);
 float Media_P2(sala* pessoas, int i);
@@ -67,7 +70,7 @@ int main(void){
 				n_t++;
 				break;
 			case 2:
-			//	procurar_aluno(aluno);
+				Procurar_aluno(pessoas, n_t);
 				break;	
 			case 3:
 				Gerar_estatisticas(pessoas, n_t);
@@ -124,7 +127,7 @@ void criar_turma(sala* pessoas, int n_t){
     	pessoas[n_t].turma[i].med_fim = media(pessoas[n_t].turma[i].P1, pessoas[n_t].turma[i].P2, pessoas[n_t].turma[i].N_tab, i);
 	}
 
-	for(i=0;i!=n;i++){
+	/*for(i=0;i!=n;i++){
     	printf("Numero USP:\n %d\n", pessoas[n_t].turma[i].num_usp);
     	printf("Nome completo:\n %s %s\n", pessoas[n_t].turma[i].nome, pessoas[n_t].turma[i].sob);
     	printf("Primeira nota:\n %.2f\n", pessoas[n_t].turma[i].P1);
@@ -133,7 +136,8 @@ void criar_turma(sala* pessoas, int n_t){
     	printf("Media final:\n %.2f\n", pessoas[n_t].turma[i].med_fim);
   	}
   	
-  	sleep(10);
+  	sleep(5);
+	*/
 	
 	return;
 }
@@ -178,6 +182,141 @@ void informando(char *nome, char *sobre,int *usp,int i){
   
   printf("digite numero usp do aluno %d: ",i+1);
   scanf("%d", &*usp);
+}
+
+//====================================================================
+//		Procurar aluno
+//====================================================================
+
+void Procurar_aluno(sala* pessoas, int n_t){
+	
+	system("cls");
+	
+	if(n_t == 0){
+		printf("Nenhuma turma registrada");
+	}
+	
+	else{
+		
+		int turma,aux,vef;
+		printf("Digite o Numero da turma que o aluno esta: ");
+		scanf("%d",&turma);
+		
+		if(turma>n_t || turma<0){
+			printf("Turma Inexistente");
+		}
+		
+		else{
+			system("cls");		
+			printf("Como deseja Procurar o Aluno:\n1-Nome\n2-Numero USP\n\nSelececione uma das opcoes: ");
+			scanf("%d",&aux);
+			
+			switch(aux){
+				case 1:
+					vef = Nome(pessoas,turma);
+					if(vef == 0)
+						printf("Erro!\nAluno nao encontrado");
+					break;
+				case 2:
+					vef = N_USP(pessoas,turma);
+					if(vef == 0)
+						printf("Erro!\nAluno nao encontrado");
+					break;
+			}
+		}
+	}
+	
+	sleep(2);
+	
+}
+
+//====================================================================
+//		Procurar aluno por nome
+//====================================================================
+
+int Nome(sala* pessoas, int turma){
+	
+	int i,comp,n_t;
+	char nome[15];
+	char sobrenome[15];
+	
+	n_t = turma-1;
+	
+	system("cls");
+	
+	
+	printf("Digite o primeiro nome: ");
+	scanf("%s",&nome);
+	
+	
+	printf("Digite o sobrenome: ");
+	scanf("%s",&sobrenome);
+	
+	
+	printf("Procurando aluno...\n");
+	
+	for(i=0;i!=pessoas[n_t].N_de_alunos;i++){
+				
+		comp = strcmp(nome,pessoas[n_t].turma[i].nome);
+		
+		
+		if(comp == 0){
+				
+				comp = strncmp(sobrenome,pessoas[n_t].turma[i].sob,15);
+				
+				if(comp == 0){
+					printf("Aluno encontrado!!\n\n");
+					
+					printf("Nome completo: %s %s\n", pessoas[n_t].turma[i].nome, pessoas[n_t].turma[i].sob);
+					printf("Numero USP: %d\n", pessoas[n_t].turma[i].num_usp);
+       				printf("Primeira nota: %.2f\n", pessoas[n_t].turma[i].P1);
+    				printf("Segunda nota: %.2f\n", pessoas[n_t].turma[i].P2);
+  				  	printf("Nota no Trabalho: %.2f\n", pessoas[n_t].turma[i].N_tab);
+    				printf("Media final: %.2f\n", pessoas[n_t].turma[i].med_fim);
+  					
+  					sleep(5);
+  					return 1;
+				}	
+		}
+	}
+	
+	return 0;
+}
+
+//====================================================================
+//		Procurar aluno numero USP
+//====================================================================
+
+int N_USP(sala* pessoas, int turma){
+	
+	int i,n_t,usp;
+	
+	n_t = turma - 1;
+	
+	system("cls");
+	
+	printf("Digite o numero usp: ");
+	scanf("%d",&usp);
+	
+	printf("Procurando aluno...\n");
+	
+	for(i=0;i!=pessoas[n_t].N_de_alunos;i++){
+		if(usp == pessoas[n_t].turma[i].num_usp){
+			printf("Aluno encontrado!!\n\n");
+			
+			printf("Nome completo: %s %s\n", pessoas[n_t].turma[i].nome, pessoas[n_t].turma[i].sob);
+			printf("Numero USP: %d\n", pessoas[n_t].turma[i].num_usp);
+       		printf("Primeira nota: %.2f\n", pessoas[n_t].turma[i].P1);
+    		printf("Segunda nota: %.2f\n", pessoas[n_t].turma[i].P2);
+  		 	printf("Nota no Trabalho: %.2f\n", pessoas[n_t].turma[i].N_tab);
+    		printf("Media final: %.2f\n", pessoas[n_t].turma[i].med_fim);
+    		
+    		sleep(5);
+  			return 1;
+		}
+	}
+	
+	return 0;
 }
 
 //====================================================================
