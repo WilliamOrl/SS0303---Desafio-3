@@ -25,19 +25,19 @@ typedef struct{
 //		Lista de funções
 //====================================================================
 
-void criar_turma(sala* pessoas,int n_t);
-int media(float n1, float n2, float tra, int n);
-void notas(float *n1,float *n2,float *tra, int i);
-void informando(char *nome, char *sobre,int *usp,int i);
-void Procurar_aluno(sala* pessoas, int turma);
-int Nome(sala* pessoas, int n_t);
-int N_USP(sala* pessoas, int turma);
-void Gerar_estatisticas(sala* pessoas,int n_t);
-float Media_P1(sala* pessoas, int i);
-float Media_P2(sala* pessoas, int i);
-float Media_Trab(sala* pessoas, int i);
-int Accept(sala* pessoas, int i);
-void Gravar_info(sala* pessoas,int n_t);
+void criar_turma(sala* pessoas,int n_t);						//Cria uma nova Turma
+int media(float n1, float n2, float tra, int n);				//Realiza a media para obter a nora final
+void notas(float *n1,float *n2,float *tra, int i);				//obtem os valores das notas
+void informando(char *nome, char *sobre,int *usp,int i);		//obtem o valor do nome, sobrenome e numero usp
+void Procurar_aluno(sala* pessoas, int turma);					//seleciona uma forma de encontrar o aluno
+int Nome(sala* pessoas, int n_t);								//Encontra o aluno por nome 
+int N_USP(sala* pessoas, int turma);							//Encontra o aluno pelo numero usp
+void Gerar_estatisticas(sala* pessoas,int n_t);					//Gera as estatisticas requisitadas
+float Media_P1(sala* pessoas, int i);							//Realiza a media da P1 de toda a turma
+float Media_P2(sala* pessoas, int i);							//Realiza a media da P2 de toda a turma
+float Media_Trab(sala* pessoas, int i);							//Realiza a media do Trabalho final de toda a turma
+int Accept(sala* pessoas, int i);								//Analiza qual dos alunos obtiveram uma media maior que 5 em toda a turma 
+void Gravar_info(sala* pessoas,int n_t);						//Grava a informação em um arquivo .txt na mesma pasta do executavel
 
 //====================================================================
 //		Inicio
