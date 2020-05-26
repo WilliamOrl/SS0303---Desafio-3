@@ -45,9 +45,20 @@ void Gravar_info(sala* pessoas,int n_t);						//Grava a informação em um arquivo
 
 int main(void){
 	
-	int aux,n_t=0,i=0;
+	int aux,n_t=0,i=0,n_m=1;
 	int cod_turma[10];
-	sala pessoas[20];
+	sala* pessoas;
+	
+	/*
+		O Programa utiliza uma strutc de uma struct para assim poder organizar as turmas
+		
+		Cada elemento do termo pessoas[] representa uma turma no programa
+		E cada elemento do termo pessoas[].turma[]representa um aluno salvo
+		
+	
+	*/
+	
+	pessoas = (sala*) malloc(n_m*sizeof(sala));
 	
 	while(1){
 		
@@ -68,6 +79,8 @@ int main(void){
 			case 1:
 				criar_turma(pessoas,n_t);
 				n_t++;
+				n_m++;
+				pessoas = (sala*) realloc (pessoas,n_m*sizeof(sala));
 				break;
 			case 2:
 				Procurar_aluno(pessoas, n_t);
@@ -84,6 +97,8 @@ int main(void){
 				for(i=0;i!=20;i++){
 					free(pessoas[i].turma);
 				}
+				
+				free(pessoas);
 				
 				goto fim;
 				break;
@@ -465,7 +480,7 @@ void Gravar_info(sala* pessoas,int n_t){
 		scanf("%[^\n]s",&nome);
 		setbuf(stdin, NULL);
 		
-		printf("Criando Arquivo...");
+		printf("Criando Arquivo...\n");
 		strcat(nome,".txt");
 		
 		FILE *arquivo = fopen (nome,"w");
@@ -480,14 +495,14 @@ void Gravar_info(sala* pessoas,int n_t){
     			fprintf(arquivo,"Segunda nota: %.2f\n", pessoas[i].turma[j].P2);
     			fprintf(arquivo,"Nota no Trabalho: %.2f\n", pessoas[i].turma[j].N_tab);
     			fprintf(arquivo,"Media final: %.2f\n", pessoas[i].turma[j].med_fim);
-    			printf("\n");
+    			fprintf(arquivo,"\n");
     			}
     		fprintf(arquivo,"\n\n");
   		}	
 		fclose(arquivo);
-		printf("Arquivo Criado com Sucesso...");
+		printf("Arquivo Criado com Sucesso...\n");
 	}
 	
-	sleep(5);
+	sleep(2);
 }
 
