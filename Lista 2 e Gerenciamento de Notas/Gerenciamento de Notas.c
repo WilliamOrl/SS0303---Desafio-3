@@ -94,10 +94,6 @@ int main(void){
 			case 5:
 				printf("Encerrando o Sistema...");
 				
-				for(i=0;i!=20;i++){
-					free(pessoas[i].turma);
-				}
-				
 				free(pessoas);
 				
 				goto fim;
