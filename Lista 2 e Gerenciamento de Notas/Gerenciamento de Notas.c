@@ -481,6 +481,11 @@ void Gravar_info(sala* pessoas,int n_t){
 		
 		FILE *arquivo = fopen (nome,"w");
 		
+		if(arquivo == NULL){
+			printf("Falha ao abrir o Arquivo...\n");
+			return;
+		}
+		
 		for(i=0;i!=n_t;i++){
 			fprintf(arquivo,"Turma %d\n",i+1);
 		
